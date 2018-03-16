@@ -1,9 +1,11 @@
 package com.example.edward.geoquiz;
 
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,7 +13,8 @@ public class QuizActivity extends AppCompatActivity {
 
     private Button mTrueButton;
     private Button mFalseButton;
-    private Button mNextButton;
+    private ImageButton mNextButton;
+    private ImageButton mPreviousButton;
     private TextView mQuestionTextView;
 
     private int mCurrentIndex = 0;
@@ -33,6 +36,13 @@ public class QuizActivity extends AppCompatActivity {
         mTrueButton =  findViewById(R.id.true_button);
         mFalseButton = findViewById(R.id.false_button);
 
+        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                updateQuestion();
+            }
+        });
 
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +62,16 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                updateQuestion();
+            }
+        });
+
+        mPreviousButton = findViewById(R.id.previous_button);
+        mPreviousButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mCurrentIndex = (mCurrentIndex - 1);
+                if (mCurrentIndex < 0) mCurrentIndex = mQuestionBank.length -1;
                 updateQuestion();
             }
         });
